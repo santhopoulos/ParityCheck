@@ -97,6 +97,65 @@ console.log(finalMessage);
 
 console.log(result);
 
+const create2dParity = function (t) {
+  const arr = create2DArray(ROWS, COLS);
+  const rowParities = [];
+  const rowParitiesBits = [];
+
+  const colParitiesBits = [];
+
+  //Dividing the initial message into rows of bits
+  let k = 0;
+  for (let i = 0; i < ROWS; i++) {
+    for (let j = 0; j < COLS; j++) {
+      arr[i][j] = t[k];
+      k++;
+    }
+  }
+
+  for (let i = 0; i < ROWS; i++) {
+    let tempStrRow = "";
+    for (let j = 0; j < COLS; j++) {
+      tempStrRow += arr[i][j];
+    }
+    rowParitiesBits.push(parityCheck(tempStrRow));
+    rowParities.push(createFinalMessage(tempStrRow).toString());
+  }
+
+  for (let i = 0; i < COLS; i++) {
+    let tempStrCol = "";
+    for (let j = 0; j < ROWS; j++) {
+      tempStrCol += arr[j][i];
+    }
+    colParitiesBits.push(parityCheck(tempStrCol));
+  }
+  colParitiesBits.push(parityCheck(rowParitiesBits.join("")));
+
+  return rowParities.join("") + colParitiesBits.join("");
+};
+
+const check2Dparity = function (c, e) {
+  if (c.localeCompare(e) === 0) {
+    console.log("Message transmitted successfully");
+  } else {
+    console.log("Message contains error");
+  }
+};
+
+const correctMessage = create2dParity(testMess24bits);
+console.log("Correct message: ", create2dParity(testMess24bits));
+const testMessErrorOneBit = "1100111100110101110010101001";
+console.log(
+  "Message with error on one bit: ",
+  create2dParity(testMessErrorOneBit)
+);
+const testMessErrorTwoBit = "1100111100100101110010101001";
+console.log(
+  "Message with error on two bits: ",
+  create2dParity(testMessErrorTwoBit)
+);
+
+check2Dparity(correctMessage, correctMessage);
 // const message = "10001101011000";
 // const wrongMessage = "100100100";
 // const finalMessage = createFinalMessage(message);
