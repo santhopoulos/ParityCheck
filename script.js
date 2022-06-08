@@ -14,7 +14,6 @@ const countOnes = function (t) {
 //Method for checking wether 1 or 0 should be appended
 const parityCheck = function (t) {
   const oneSum = countOnes(t);
-  //console.log(`Sum of 1's in initial message: ${oneSum}`);
   if (oneSum % 2 === 0) return 0;
   else return 1;
 };
@@ -23,13 +22,13 @@ const parityCheck = function (t) {
 //returns 1 if message transmitted successfully, otherwise -1
 const receiverCheck = function (t) {
   if (countOnes(t) % 2 == 0) {
-    console.log("Message transmitted successfully!");
+    console.log(`Message ${t} transmitted successfully!`);
     return 1;
-  } else console.log("Message transmitted unsuccessfully!");
+  } else console.log(`Message ${t} transmitted unsuccessfully!`);
   return -1;
 };
 
-//Method that creates the final message
+//Method that creates the final message based on even parity
 const createFinalMessage = function (t) {
   return t + parityCheck(t).toString();
 };
@@ -43,66 +42,68 @@ const create2DArray = function (rows, cols) {
 };
 
 //2D-parity check
-const testMess24bits = "1100111101110101110010101001"; //24bits
 
-const rowParitiesArr = [];
-const rowParitiesBitsArr = [];
+// const rowParitiesArr = [];
+// const rowParitiesBitsArr = [];
 
-const colParitiesArr = [];
-const colParitiesBitsArr = [];
+// const colParitiesArr = [];
+// const colParitiesBitsArr = [];
 
 //Creating 2D array
-const result = create2DArray(ROWS, COLS);
+// const result = create2DArray(ROWS, COLS);
 
 //Dividing the initial message into rows of bits
-let k = 0;
-for (let i = 0; i < ROWS; i++) {
-  for (let j = 0; j < COLS; j++) {
-    result[i][j] = testMess24bits[k];
-    k++;
-  }
-}
+// let k = 0;
+// for (let i = 0; i < ROWS; i++) {
+//   for (let j = 0; j < COLS; j++) {
+//     result[i][j] = testMess24bits[k];
+//     k++;
+//   }
+// }
 
-//Computing Row parities
-for (let i = 0; i < ROWS; i++) {
-  let tempStrRow = "";
-  for (let j = 0; j < COLS; j++) {
-    tempStrRow += result[i][j];
-  }
-  rowParitiesBitsArr.push(parityCheck(tempStrRow));
-  rowParitiesArr.push(createFinalMessage(tempStrRow).toString());
-}
+// //Computing Row parities
+// for (let i = 0; i < ROWS; i++) {
+//   let tempStrRow = "";
+//   for (let j = 0; j < COLS; j++) {
+//     tempStrRow += result[i][j];
+//   }
+//   rowParitiesBitsArr.push(parityCheck(tempStrRow));
+//   rowParitiesArr.push(createFinalMessage(tempStrRow).toString());
+// }
 
-//Logging results to the console
-console.log(rowParitiesArr.join(""));
-console.log(rowParitiesBitsArr);
+// //Logging results to the console
+// console.log(rowParitiesArr.join(""));
+// console.log(rowParitiesBitsArr);
 
-//Computing Columns parities
-for (let i = 0; i < COLS; i++) {
-  let tempStrCol = "";
-  for (let j = 0; j < ROWS; j++) {
-    tempStrCol += result[j][i];
-  }
-  colParitiesBitsArr.push(parityCheck(tempStrCol));
-  //colParitiesArr.push(createFinalMessage(tempStrCol).toString());
-}
-colParitiesBitsArr.push(parityCheck(rowParitiesBitsArr.join("")));
+// //Computing Columns parities
+// for (let i = 0; i < COLS; i++) {
+//   let tempStrCol = "";
+//   for (let j = 0; j < ROWS; j++) {
+//     tempStrCol += result[j][i];
+//   }
+//   colParitiesBitsArr.push(parityCheck(tempStrCol));
+//   //colParitiesArr.push(createFinalMessage(tempStrCol).toString());
+// }
+// colParitiesBitsArr.push(parityCheck(rowParitiesBitsArr.join("")));
 
-//Logging results to the console
-//console.log(colParitiesArr);
-console.log(colParitiesBitsArr);
-const finalMessage = rowParitiesArr.join("") + colParitiesBitsArr.join("");
-console.log(finalMessage);
-//const resultWithRowParities = create2DArray(ROWS, COLS + 1);
+// //Logging results to the console
+// //console.log(colParitiesArr);
+// console.log(colParitiesBitsArr);
+// const finalMessage = rowParitiesArr.join("") + colParitiesBitsArr.join("");
+// console.log(finalMessage);
+// //const resultWithRowParities = create2DArray(ROWS, COLS + 1);
 
-console.log(result);
+// console.log(result);
 
 const create2dParity = function (t) {
+  //Create 2D array
   const arr = create2DArray(ROWS, COLS);
-  const rowParities = [];
-  const rowParitiesBits = [];
 
+  //Initialize arrays to store row and column parities bits
+  const rowParitiesBits = [];
   const colParitiesBits = [];
+
+  const rowParities = [];
 
   //Dividing the initial message into rows of bits
   let k = 0;
@@ -113,6 +114,7 @@ const create2dParity = function (t) {
     }
   }
 
+  //Computing rows parities
   for (let i = 0; i < ROWS; i++) {
     let tempStrRow = "";
     for (let j = 0; j < COLS; j++) {
@@ -122,6 +124,7 @@ const create2dParity = function (t) {
     rowParities.push(createFinalMessage(tempStrRow).toString());
   }
 
+  //Computing cols parities
   for (let i = 0; i < COLS; i++) {
     let tempStrCol = "";
     for (let j = 0; j < ROWS; j++) {
@@ -131,9 +134,15 @@ const create2dParity = function (t) {
   }
   colParitiesBits.push(parityCheck(rowParitiesBits.join("")));
 
+  //Logging row and col parities
+  //console.log("Rows parities: ", rowParitiesBits);
+  //console.log("Column parities: ", colParitiesBits);
+
+  //Return the final message
   return rowParities.join("") + colParitiesBits.join("");
 };
 
+//Function to check 2d parity
 const check2Dparity = function (c, e) {
   if (c.localeCompare(e) === 0) {
     console.log("Message transmitted successfully");
@@ -142,27 +151,38 @@ const check2Dparity = function (c, e) {
   }
 };
 
+// check2Dparity(correctMessage, correctMessage);
+
+//One dimension parity check
+const message = "10001101011000";
+
+console.log(
+  `One dimension parity\nInitial message: ${message}\nFinal message to be transmitted: ${createFinalMessage(
+    message
+  )}\nParity bit: ${parityCheck(message)}`
+);
+
+receiverCheck("10001101011000"); //Checking 10001101011000
+receiverCheck("10001001011000"); //Error on 6th bit
+receiverCheck("10001001011100"); //Errors on bits 6 and 12
+
+console.log("-------------------------------------------------");
+//Two-dimensional parity check
+const testMess24bits = "1100111101110101110010101001"; //24-bit message
+console.log(`Two-dimensional parity\nInitial message: ${testMess24bits}`);
+const finalMes = create2dParity(testMess24bits);
+console.log(`Final   message: ${finalMes}`);
+
+console.log("-------------------------------------------------");
+
+//Correct message excpeted by the receiver after two-dimensional parity
 const correctMessage = create2dParity(testMess24bits);
-console.log("Correct message: ", create2dParity(testMess24bits));
-const testMessErrorOneBit = "1100111100110101110010101001";
-console.log(
-  "Message with error on one bit: ",
-  create2dParity(testMessErrorOneBit)
-);
-const testMessErrorTwoBit = "1100111100100101110010101001";
-console.log(
-  "Message with error on two bits: ",
-  create2dParity(testMessErrorTwoBit)
-);
 
-check2Dparity(correctMessage, correctMessage);
-// const message = "10001101011000";
-// const wrongMessage = "100100100";
-// const finalMessage = createFinalMessage(message);
-// console.log(message);
-// console.log(finalMessage);
-// console.log(receiverCheck(finalMessage));
-// console.log(receiverCheck(wrongMessage));
+//Variables for messages containing 0,1 or 2 errors
+const message0Err = testMess24bits;
+const message1Err = "1100111100110101110010101001";
+const message2Err = "1100111100100101110010101001";
 
-//first persama kata grammes
-//second perasma kata sthles
+check2Dparity(correctMessage, create2dParity(message0Err));
+check2Dparity(correctMessage, create2dParity(message1Err));
+check2Dparity(correctMessage, create2dParity(message2Err));
