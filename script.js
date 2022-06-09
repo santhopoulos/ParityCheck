@@ -41,60 +41,7 @@ const create2DArray = function (rows, cols) {
   return arr;
 };
 
-//2D-parity check
-
-// const rowParitiesArr = [];
-// const rowParitiesBitsArr = [];
-
-// const colParitiesArr = [];
-// const colParitiesBitsArr = [];
-
-//Creating 2D array
-// const result = create2DArray(ROWS, COLS);
-
-//Dividing the initial message into rows of bits
-// let k = 0;
-// for (let i = 0; i < ROWS; i++) {
-//   for (let j = 0; j < COLS; j++) {
-//     result[i][j] = testMess24bits[k];
-//     k++;
-//   }
-// }
-
-// //Computing Row parities
-// for (let i = 0; i < ROWS; i++) {
-//   let tempStrRow = "";
-//   for (let j = 0; j < COLS; j++) {
-//     tempStrRow += result[i][j];
-//   }
-//   rowParitiesBitsArr.push(parityCheck(tempStrRow));
-//   rowParitiesArr.push(createFinalMessage(tempStrRow).toString());
-// }
-
-// //Logging results to the console
-// console.log(rowParitiesArr.join(""));
-// console.log(rowParitiesBitsArr);
-
-// //Computing Columns parities
-// for (let i = 0; i < COLS; i++) {
-//   let tempStrCol = "";
-//   for (let j = 0; j < ROWS; j++) {
-//     tempStrCol += result[j][i];
-//   }
-//   colParitiesBitsArr.push(parityCheck(tempStrCol));
-//   //colParitiesArr.push(createFinalMessage(tempStrCol).toString());
-// }
-// colParitiesBitsArr.push(parityCheck(rowParitiesBitsArr.join("")));
-
-// //Logging results to the console
-// //console.log(colParitiesArr);
-// console.log(colParitiesBitsArr);
-// const finalMessage = rowParitiesArr.join("") + colParitiesBitsArr.join("");
-// console.log(finalMessage);
-// //const resultWithRowParities = create2DArray(ROWS, COLS + 1);
-
-// console.log(result);
-
+//Function that takes a message t as a paremeter and returns the message with 2D parities
 const create2dParity = function (t) {
   //Create 2D array
   const arr = create2DArray(ROWS, COLS);
@@ -183,6 +130,7 @@ const message0Err = testMess24bits;
 const message1Err = "1100111100110101110010101001";
 const message2Err = "1100111100100101110010101001";
 
+//Checking 2D parities
 check2Dparity(correctMessage, create2dParity(message0Err));
 check2Dparity(correctMessage, create2dParity(message1Err));
 check2Dparity(correctMessage, create2dParity(message2Err));
