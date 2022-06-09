@@ -134,3 +134,5 @@ const message2Err = "1100111100100101110010101001";
 check2Dparity(correctMessage, create2dParity(message0Err));
 check2Dparity(correctMessage, create2dParity(message1Err));
 check2Dparity(correctMessage, create2dParity(message2Err));
+
+//If you want the column and row parities to be loggfed to the console for every message that 2D-parity is implemented, please uncomment lines 85 and 86
